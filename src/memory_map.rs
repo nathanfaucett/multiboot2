@@ -8,7 +8,7 @@ pub struct MemoryMapTag {
 }
 
 impl MemoryMapTag {
-    pub fn memory_areas(&self) -> MemoryAreaIter {
+    pub fn get_memory_areas(&self) -> MemoryAreaIter {
         let self_ptr = self as *const MemoryMapTag;
         let start_area = (&self.first_area) as *const MemoryArea;
         MemoryAreaIter {
@@ -21,10 +21,19 @@ impl MemoryMapTag {
 
 #[repr(C)]
 pub struct MemoryArea {
-    pub base_addr: u64,
-    pub length: u64,
+    base_address: u64,
+    length: u64,
     typ: u32,
     reserved: u32,
+}
+
+impl MemoryArea {
+    pub fn get_base_address(&self) -> u64 {
+        self.base_address
+    }
+    pub fn get_length(&self) -> u64 {
+        self.length
+    }
 }
 
 #[derive(Clone)]

@@ -27,19 +27,19 @@ impl Multiboot2 {
         multiboot2
     }
 
-    pub fn start_address(&self) -> usize {
+    pub fn get_start_address(&self) -> usize {
         self as *const _ as usize
     }
 
-    pub fn end_address(&self) -> usize {
-        self.start_address() + self.total_size as usize
+    pub fn get_end_address(&self) -> usize {
+        self.get_start_address() + self.total_size as usize
     }
 
-    pub fn elf_sections_tag(&self) -> Option<&'static ElfSectionsTag> {
+    pub fn get_elf_sections_tag(&self) -> Option<&'static ElfSectionsTag> {
         self.get_tag(9).map(|tag| unsafe{&*(tag as *const Tag as *const ElfSectionsTag)})
     }
 
-    pub fn memory_map_tag(&self) -> Option<&'static MemoryMapTag> {
+    pub fn get_memory_map_tag(&self) -> Option<&'static MemoryMapTag> {
         self.get_tag(6).map(|tag| unsafe{&*(tag as *const Tag as *const MemoryMapTag)})
     }
 
@@ -54,11 +54,11 @@ impl Multiboot2 {
     }
 
     fn get_tag(&self, typ: u32) -> Option<&'static Tag> {
-        self.tags().find(|tag| tag.typ == typ)
+        self.get_tags().find(|tag| tag.typ == typ)
     }
 
-    fn tags(&self) -> TagIter {
-        TagIter{current: &self.first_tag as *const _}
+    fn get_tags(&self) -> TagIter {
+        TagIter{ current: &self.first_tag as *const _ }
     }
 }
 
@@ -83,7 +83,6 @@ impl Iterator for TagIter {
                 tag_addr += tag.size as usize;
                 tag_addr = ((tag_addr-1) & !0x7) + 0x8;
                 self.current = tag_addr as *const _;
-
                 Some(tag)
             },
         }

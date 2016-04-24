@@ -15,7 +15,7 @@ impl ElfSectionsTag {
     pub fn get_number_of_sections(&'static self) -> u32 {
         self.number_of_sections
     }
-    pub fn sections(&'static self) -> ElfSectionIter {
+    pub fn get_sections(&'static self) -> ElfSectionIter {
         ElfSectionIter {
             current_section: &self.first_section,
             remaining_sections: self.number_of_sections - 1,
@@ -55,32 +55,32 @@ impl Iterator for ElfSectionIter {
 pub struct ElfSection {
     name: u32,
     typ: u32,
-    pub flags: u64,
-    pub addr: u64,
+    flags: u64,
+    address: u64,
     offset: u64,
-    pub size: u64,
+    size: u64,
     link: u32,
     info: u32,
-    addralign: u64,
+    address_align: u64,
     entry_size: u64,
 }
 
 impl ElfSection {
 
-    pub fn start_address(&self) -> usize {
-        self.addr as usize
+    pub fn get_start_address(&self) -> usize {
+        self.address as usize
     }
 
-    pub fn end_address(&self) -> usize {
-        (self.addr + self.size) as usize
+    pub fn get_end_address(&self) -> usize {
+        (self.address + self.size) as usize
     }
 
-    pub fn flags(&self) -> ElfSectionFlags {
+    pub fn get_flags(&self) -> ElfSectionFlags {
         ElfSectionFlags::from_bits_truncate(self.flags)
     }
 
     pub fn is_allocated(&self) -> bool {
-        self.flags().contains(ELF_SECTION_ALLOCATED)
+        self.get_flags().contains(ELF_SECTION_ALLOCATED)
     }
 }
 
