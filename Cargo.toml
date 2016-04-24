@@ -1,0 +1,14 @@
+[package]
+name = "multiboot2"
+version = "0.1.0"
+authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
+
+keywords = ["multiboot2"]
+description = "multiboot 2 crate for kernels"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/nathanfaucett/rs-multiboot2.git"
+homepage = "https://github.com/nathanfaucett/rs-multiboot2"
+
+[dependencies.bitflags]
+version = "0.6.0"
