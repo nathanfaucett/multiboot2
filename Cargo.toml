@@ -10,5 +10,8 @@ readme = "README.md"
 repository = "https://github.com/nathanfaucett/rs-multiboot2.git"
 homepage = "https://github.com/nathanfaucett/rs-multiboot2"
 
-[dependencies.bitflags]
-version = "0.6.0"
+[dependencies.memory_map]
+git = "https://github.com/nathanfaucett/rs-memory_map.git"
+
+[dependencies.elf_sections]
+git = "https://github.com/nathanfaucett/rs-elf_sections.git"

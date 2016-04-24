@@ -1,11 +1,8 @@
 #![no_std]
 
 
-#[macro_use]
-extern crate bitflags;
-
-mod elf_sections;
-mod memory_map;
+extern crate memory_map;
+extern crate elf_sections;
 
 
 pub use elf_sections::{ElfSectionsTag, ElfSection, ElfSectionIter, ElfSectionType, ElfSectionFlags};
