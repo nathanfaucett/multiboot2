@@ -1,13 +1,21 @@
 #![no_std]
 
 
-extern crate memory_map;
+extern crate memory_area;
 extern crate elf_sections;
 
 
-pub use elf_sections::{ElfSectionsTag, ElfSection, ElfSectionIter, ElfSectionType, ElfSectionFlags};
+mod elf_sections_tag;
+mod memory_map_tag;
+
+
+pub use elf_sections::{ElfSection, ElfSectionIter, ElfSectionType, ElfSectionFlags};
 pub use elf_sections::{ELF_SECTION_WRITABLE, ELF_SECTION_ALLOCATED, ELF_SECTION_EXECUTABLE};
-pub use memory_map::{MemoryMapTag, MemoryArea, MemoryAreaIter};
+pub use memory_area::{MemoryArea, MemoryAreaIter};
+
+
+pub use elf_sections_tag::ElfSectionsTag;
+pub use memory_map_tag::MemoryMapTag;
 
 
 #[repr(C)]
