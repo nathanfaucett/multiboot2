@@ -13,5 +13,5 @@ homepage = "https://github.com/nathanfaucett/rs-multiboot2"
 [dependencies.memory_area]
 git = "https://github.com/nathanfaucett/rs-memory_area.git"
 
-[dependencies.elf_sections]
-git = "https://github.com/nathanfaucett/rs-elf_sections.git"
+[dependencies.elf_section]
+git = "https://github.com/nathanfaucett/rs-elf_section.git"

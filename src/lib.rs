@@ -2,7 +2,7 @@
 
 
 extern crate memory_area;
-extern crate elf_sections;
+extern crate elf_section;
 
 
 mod elf_sections_tag;

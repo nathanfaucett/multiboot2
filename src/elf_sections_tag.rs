@@ -1,4 +1,4 @@
-use elf_sections::{ElfSection, ElfSectionIter};
+use elf_section::{ElfSection, ElfSectionIter};
 
 
 #[derive(Debug)]
