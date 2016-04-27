@@ -9,13 +9,8 @@ mod elf_sections_tag;
 mod memory_map_tag;
 
 
-pub use elf_sections::{ElfSection, ElfSectionIter, ElfSectionType, ElfSectionFlags};
-pub use elf_sections::{ELF_SECTION_WRITABLE, ELF_SECTION_ALLOCATED, ELF_SECTION_EXECUTABLE};
-pub use memory_area::{MemoryArea, MemoryAreaIter};
-
-
-pub use elf_sections_tag::ElfSectionsTag;
-pub use memory_map_tag::MemoryMapTag;
+use elf_sections_tag::ElfSectionsTag;
+use memory_map_tag::MemoryMapTag;
 
 
 #[repr(C)]
