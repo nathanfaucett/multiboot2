@@ -3,7 +3,7 @@ use memory_area::{MemoryArea, MemoryAreaIter};
 
 #[repr(C)]
 pub struct MemoryMapTag {
-    typ: u32,
+    kind: u32,
     size: u32,
     entry_size: u32,
     entry_version: u32,
@@ -11,7 +11,8 @@ pub struct MemoryMapTag {
 }
 
 impl MemoryMapTag {
-    pub fn get_type(&self) -> u32 { self.typ }
+    pub fn get_kind(&self) -> u32 { self.kind }
+    pub fn get_type(&self) -> u32 { self.kind }
     pub fn get_size(&self) -> u32 { self.size }
     pub fn get_entry_size(&self) -> u32 { self.entry_size }
     pub fn get_entry_version(&self) -> u32 { self.entry_version }

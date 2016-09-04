@@ -11,7 +11,9 @@ repository = "https://github.com/nathanfaucett/rs-multiboot2.git"
 homepage = "https://github.com/nathanfaucett/rs-multiboot2"
 
 [dependencies.memory_area]
-git = "https://github.com/nathanfaucett/rs-memory_area.git"
+#git = "https://github.com/nathanfaucett/rs-memory_area.git"
+path = "../rs-memory_area"
 
 [dependencies.elf_section]
-git = "https://github.com/nathanfaucett/rs-elf_section.git"
+#git = "https://github.com/nathanfaucett/rs-elf_section.git"
+path = "../rs-elf_section"

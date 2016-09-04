@@ -49,7 +49,7 @@ impl Multiboot2 {
 
     fn has_valid_end_tag(&self) -> bool {
         const END_TAG: Tag = Tag{
-            typ: 0,
+            kind: 0,
             size: 8,
         };
 
@@ -59,11 +59,11 @@ impl Multiboot2 {
             &*(end_tag_addr as *const Tag)
         };
 
-        end_tag.typ == END_TAG.typ && end_tag.size == END_TAG.size
+        end_tag.kind == END_TAG.kind && end_tag.size == END_TAG.size
     }
 
-    fn get_tag(&self, typ: u32) -> Option<&'static Tag> {
-        self.get_tags().find(|tag| tag.typ == typ)
+    fn get_tag(&self, kind: u32) -> Option<&'static Tag> {
+        self.get_tags().find(|tag| tag.kind == kind)
     }
 
     fn get_tags(&self) -> TagIter {
@@ -75,7 +75,7 @@ impl Multiboot2 {
 
 #[repr(C)]
 struct Tag {
-    typ: u32,
+    kind: u32,
     size: u32,
 }
 
@@ -89,7 +89,7 @@ impl Iterator for TagIter {
     fn next(&mut self) -> Option<&'static Tag> {
         match unsafe { &*self.current } {
             &Tag{
-                typ: 0,
+                kind: 0,
                 size: 8,
             } => None,
             tag => {
