@@ -5,100 +5,14 @@ extern crate memory_area;
 extern crate elf_section;
 
 
-mod elf_sections_tag;
-mod memory_map_tag;
-
-
-use elf_sections_tag::ElfSectionsTag;
-use memory_map_tag::MemoryMapTag;
-
-
-#[repr(C)]
-pub struct Multiboot2 {
-    total_size: u32,
-    reserved: u32,
-    first_tag: Tag,
+pub mod x86;
+pub mod x86_64 {
+    pub use x86::*;
 }
 
-impl Multiboot2 {
-    pub unsafe fn new(address: usize) -> &'static Multiboot2 {
-        let multiboot2 = &*(address as *const Multiboot2);
-        assert!(multiboot2.has_valid_end_tag());
-        multiboot2
-    }
 
-    pub fn get_start_address(&self) -> usize {
-        self as *const _ as usize
-    }
+#[cfg(target_arch = "x86")]
+pub use x86::*;
 
-    pub fn get_end_address(&self) -> usize {
-        self.get_start_address() + self.total_size as usize
-    }
-
-    pub fn get_elf_sections_tag(&self) -> Option<&'static ElfSectionsTag> {
-        self.get_tag(9).map(|tag| unsafe{
-            &*(tag as *const Tag as *const ElfSectionsTag)
-        })
-    }
-
-    pub fn get_memory_map_tag(&self) -> Option<&'static MemoryMapTag> {
-        self.get_tag(6).map(|tag| unsafe{
-            &*(tag as *const Tag as *const MemoryMapTag)
-        })
-    }
-
-    fn has_valid_end_tag(&self) -> bool {
-        const END_TAG: Tag = Tag{
-            kind: 0,
-            size: 8,
-        };
-
-        let self_ptr = self as *const _;
-        let end_tag_addr = self_ptr as usize + (self.total_size - END_TAG.size) as usize;
-        let end_tag = unsafe{
-            &*(end_tag_addr as *const Tag)
-        };
-
-        end_tag.kind == END_TAG.kind && end_tag.size == END_TAG.size
-    }
-
-    fn get_tag(&self, kind: u32) -> Option<&'static Tag> {
-        self.get_tags().find(|tag| tag.kind == kind)
-    }
-
-    fn get_tags(&self) -> TagIter {
-        TagIter {
-            current: &self.first_tag as *const _,
-        }
-    }
-}
-
-#[repr(C)]
-struct Tag {
-    kind: u32,
-    size: u32,
-}
-
-struct TagIter {
-    current: *const Tag,
-}
-
-impl Iterator for TagIter {
-    type Item = &'static Tag;
-
-    fn next(&mut self) -> Option<&'static Tag> {
-        match unsafe { &*self.current } {
-            &Tag{
-                kind: 0,
-                size: 8,
-            } => None,
-            tag => {
-                let mut tag_addr = self.current as usize;
-                tag_addr += tag.size as usize;
-                tag_addr = ((tag_addr-1) & !0x7) + 0x8;
-                self.current = tag_addr as *const _;
-                Some(tag)
-            },
-        }
-    }
-}
+#[cfg(target_arch = "x86_64")]
+pub use x86_64::*;

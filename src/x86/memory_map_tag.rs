@@ -11,13 +11,17 @@ pub struct MemoryMapTag {
 }
 
 impl MemoryMapTag {
-    pub fn get_kind(&self) -> u32 { self.kind }
-    pub fn get_type(&self) -> u32 { self.kind }
-    pub fn get_size(&self) -> u32 { self.size }
-    pub fn get_entry_size(&self) -> u32 { self.entry_size }
-    pub fn get_entry_version(&self) -> u32 { self.entry_version }
+    #[inline(always)]
+    pub fn kind(&self) -> u32 { self.kind }
+    #[inline(always)]
+    pub fn size(&self) -> u32 { self.size }
+    #[inline(always)]
+    pub fn entry_size(&self) -> u32 { self.entry_size }
+    #[inline(always)]
+    pub fn entry_version(&self) -> u32 { self.entry_version }
 
-    pub fn get_memory_areas(&self) -> MemoryAreaIter {
+    #[inline]
+    pub fn memory_areas(&self) -> MemoryAreaIter {
         let self_ptr = self as *const MemoryMapTag;
         let start_area = (&self.first_area) as *const MemoryArea;
 
